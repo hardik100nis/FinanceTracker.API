@@ -1,6 +1,7 @@
 ﻿using FinanceTracker.API.Application.DTOs;
 using FinanceTracker.API.Application.Queries;
 using FinanceTracker.API.Infrastructure.Persistence;
+using FinanceTracker.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,9 @@ namespace FinanceTracker.API.Application.Handlers
 {
     public class GetExpensesQueryHandler : IRequestHandler<GetExpensesQuery, List<ExpenseDto>>
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public GetExpensesQueryHandler(AppDbContext context)
+        public GetExpensesQueryHandler(ApplicationDbContext context)
         {
             _context = context;
         }

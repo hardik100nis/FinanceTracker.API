@@ -1,9 +1,11 @@
 ﻿using FinanceTracker.API.Application.Commands;
 using FinanceTracker.API.Infrastructure.Persistence;
+using FinanceTracker.Domain.Entities;
+using FinanceTracker.Infrastructure.Persistence;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +21,17 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // ✅ Add EF Core
-builder.Services.AddDbContext<AppDbContext>(options =>
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 👇 Add DbContext with SQL Server or InMemory (for testing)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 
 // ✅ MediatR
 builder.Services.AddMediatR(typeof(CreateExpenseCommand).Assembly);

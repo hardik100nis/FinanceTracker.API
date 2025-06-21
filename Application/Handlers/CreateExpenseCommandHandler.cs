@@ -1,15 +1,16 @@
 ﻿using FinanceTracker.API.Application.Commands;
 using FinanceTracker.API.Domain;
 using FinanceTracker.API.Infrastructure.Persistence;
+using FinanceTracker.Infrastructure.Persistence;
 using MediatR;
 
 namespace FinanceTracker.API.Application.Handlers
 {
     public class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Guid>
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateExpenseCommandHandler(AppDbContext context)
+        public CreateExpenseCommandHandler(ApplicationDbContext context)
         {
             _context = context;
         }
