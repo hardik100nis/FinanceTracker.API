@@ -1,6 +1,5 @@
 ﻿using FinanceTracker.API.Application.DTOs;
 using FinanceTracker.API.Application.Queries;
-using FinanceTracker.API.Infrastructure.Persistence;
 using FinanceTracker.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

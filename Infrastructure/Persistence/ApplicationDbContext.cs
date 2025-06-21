@@ -1,18 +1,15 @@
-﻿using FinanceTracker.API.Domain;
-using FinanceTracker.Domain.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using FinanceTracker.Domain.Entities;
+using FinanceTracker.API.Domain;
 namespace FinanceTracker.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Expense> Expenses { get; set; }
 
-        // Optional: override OnModelCreating if needed
+        // Add more DbSets here if needed
     }
 }

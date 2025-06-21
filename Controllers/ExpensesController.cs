@@ -3,8 +3,11 @@
     using Application.Commands;
     using FinanceTracker.API.Application.Queries;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
 
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ExpensesController : ControllerBase
@@ -24,12 +27,19 @@
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetExpenses(Guid userId)
+        public async Task<IActionResult> GetExpenses()
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            var userId = Guid.Parse(userIdClaim.Value);
+
             var query = new GetExpensesQuery { UserId = userId };
             var expenses = await _mediator.Send(query);
             return Ok(expenses);
         }
+
     }
 
 }
