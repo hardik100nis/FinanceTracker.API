@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddControllers();
@@ -32,10 +33,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
+
 builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,13 +48,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Finance Tracker API v1");
-        options.RoutePrefix = ""; // Serve Swagger UI at root
+        options.RoutePrefix = string.Empty;
     });
 }
 
 app.UseCors("AllowAngular");
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
 
 var summaries = new[]
