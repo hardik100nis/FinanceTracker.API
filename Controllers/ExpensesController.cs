@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [ApiController]
     [Route("api/[controller]")]
     public class ExpensesController : ControllerBase

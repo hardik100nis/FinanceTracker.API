@@ -40,8 +40,10 @@ namespace FinanceTracker.API.Controllers
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                Console.WriteLine("JWT Key: " + _configuration["Jwt:Key"]);
+                var authSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
+                );
+                Console.WriteLine(_configuration["Jwt:Key"]);
 
                 var token = new JwtSecurityToken(
                     issuer: _configuration["Jwt:Issuer"],
@@ -50,6 +52,7 @@ namespace FinanceTracker.API.Controllers
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
+
 
                 return Ok(new
                 {
@@ -76,8 +79,7 @@ namespace FinanceTracker.API.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email,
-                FullName = model.FullName
+                UserName = model.Email
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

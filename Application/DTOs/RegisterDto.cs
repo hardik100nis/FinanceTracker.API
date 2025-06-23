@@ -4,8 +4,6 @@ namespace FinanceTracker.API.Application.DTOs
 {
     public class RegisterDto
     {
-        [Required]
-        public string FullName { get; set; }
 
         [Required]
         [EmailAddress]
