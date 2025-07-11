@@ -31,7 +31,7 @@ namespace FinanceTracker.API.Application.Handlers
             {
                 ExpenseId = Guid.NewGuid(),
                 UserId = userId, // ✅ assigned from logged-in user
-                CategoryId = request.CategoryId,
+                Category = request.Category,
                 Amount = request.Amount,
                 Description = request.Description,
                 ExpenseDate = request.ExpenseDate,

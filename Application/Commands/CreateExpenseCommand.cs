@@ -4,7 +4,7 @@
 
     public class CreateExpenseCommand : IRequest<Guid>
     {
-        public Guid CategoryId { get; set; }
+        public string Category { get; set; }
         public decimal Amount { get; set; }
         public string Description { get; set; }
         public DateTime ExpenseDate { get; set; }

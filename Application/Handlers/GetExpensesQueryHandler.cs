@@ -25,7 +25,9 @@ namespace FinanceTracker.API.Application.Handlers
                     Amount = e.Amount,
                     Description = e.Description,
                     ExpenseDate = e.ExpenseDate,
-                    Currency = e.Currency
+                    Currency = e.Currency,
+                    Category = e.Category,
+
                 }).ToListAsync();
         }
     }

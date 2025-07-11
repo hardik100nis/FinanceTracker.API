@@ -40,6 +40,62 @@
             return Ok(expenses);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExpense(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteExpenseCommand(id));
+
+            if (!result)
+                return NotFound(new { message = "Expense not found." });
+
+            return Ok(new { message = "Expense deleted successfully." });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateExpense(Guid id, UpdateExpenseCommand command)
+        {
+
+            var result = await _mediator.Send(new UpdateExpenseCommand
+            {
+                ExpenseId = id,
+                Category = command.Category,
+                Amount = command.Amount,
+                Description = command.Description,
+                ExpenseDate = command.ExpenseDate,
+                Currency = command.Currency
+            });
+
+            if (result == Guid.Empty)
+            {
+                return NotFound(new { message = "Expense not found." });
+            }
+
+            return Ok(new { message = "Expense updated successfully.", ExpenseId = result });
+        }
+
+        [HttpGet("{userId}/expenses/{expenseId}")]
+        public async Task<IActionResult> GetExpensesByExpenseId(Guid userId, Guid expenseId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            var loggedInUserId = Guid.Parse(userIdClaim.Value);
+            if (loggedInUserId != userId)
+                return Forbid();
+
+            var query = new GetExpensesByExpenseIdQuery
+            {
+                ExpenseId = expenseId,
+                UserId = loggedInUserId
+            };
+
+            var expense = await _mediator.Send(query);
+            if (expense == null)
+                return NotFound();
+
+            return Ok(expense);
+        }
     }
 
 }
