@@ -1,0 +1,51 @@
+# name: Build, Test, and Deploy FinanceTracker .NET API
+
+# on:
+#   push:
+#     branches: [ dev ]
+#   pull_request:
+#     branches: [ dev ]
+
+# jobs:
+#   build:
+
+#     runs-on: windows-latest
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
+
+#     - name: Setup .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: '8.0.x'
+
+#     - name: Restore dependencies
+#       run: dotnet restore
+
+#     - name: Build
+#       run: dotnet build --no-restore --configuration Release
+
+#     - name: Test
+#       run: dotnet test --no-build --verbosity normal
+
+#     - name: Publish for IIS (Web Deploy)
+#       run: dotnet publish FinanceTracker.API.csproj -c Release -o ./publish
+
+#     - name: Upload published artifact
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: iis-publish
+#         path: ./publish
+
+#     - name: Build Docker image
+#       run: docker build -t ${{ github.repository }}:latest .
+
+#     - name: Log in to Docker Hub
+#       uses: docker/login-action@v3
+#       with:
+#         username: ${{ secrets.DOCKERHUB_USERNAME }}
+#         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+#     - name: Push Docker image
+#       run: docker push ${{ github.repository }}:latest
